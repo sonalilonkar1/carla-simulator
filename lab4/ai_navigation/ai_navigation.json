@@ -1,0 +1,20 @@
+{
+  "scenario_name": "basic_agent_route_navigation",
+  "map": "Town03_Opt",
+  "spawn_index": 0,
+  "destination_index": 50,
+  "target_speed_kmh": 20.0,
+  "simulation_seconds": 75.0,
+  "fixed_delta_seconds": 0.05,
+  "camera_fps": 10,
+  "image_width": 800,
+  "image_height": 600,
+  "camera_fov": 90,
+  "lidar_fps": 5,
+  "lidar_range_m": 50.0,
+  "lidar_channels": 32,
+  "lidar_points_per_second": 56000,
+  "max_lidar_scans": 60,
+  "minimum_route_progress_m": 25.0,
+  "goal_tolerance_m": 8.0
+}

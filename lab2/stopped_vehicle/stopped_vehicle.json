@@ -1,0 +1,16 @@
+{
+  "scenario_name": "stopped_vehicle_emergency_braking",
+  "map": "Town03_Opt",
+  "spawn_index": 0,
+  "obstacle_distance_m": 25.0,
+  "brake_trigger_distance_m": 15.0,
+  "initial_throttle": 0.45,
+  "simulation_seconds": 12.0,
+  "fixed_delta_seconds": 0.05,
+  "camera_fps": 20,
+  "image_width": 800,
+  "image_height": 600,
+  "camera_fov": 90,
+  "pass_min_distance_m": 2.0,
+  "pass_max_final_speed_kmh": 2.0
+}

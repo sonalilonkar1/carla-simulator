@@ -1,0 +1,22 @@
+{
+  "scenario_name": "pedestrian_crossing_emergency_braking",
+  "map": "Town03_Opt",
+  "spawn_index": 0,
+  "walker_blueprint_index": 0,
+  "pedestrian_longitudinal_m": 28.0,
+  "pedestrian_start_lateral_m": 5.5,
+  "pedestrian_z_offset_m": 0.5,
+  "pedestrian_speed_mps": 1.5,
+  "brake_trigger_longitudinal_m": 20.0,
+  "hazard_lateral_half_width_m": 2.75,
+  "crossing_complete_lateral_m": -2.0,
+  "initial_throttle": 0.35,
+  "simulation_seconds": 12.0,
+  "fixed_delta_seconds": 0.05,
+  "camera_fps": 20,
+  "image_width": 800,
+  "image_height": 600,
+  "camera_fov": 90,
+  "pass_min_distance_m": 2.0,
+  "pass_max_final_speed_kmh": 2.0
+}

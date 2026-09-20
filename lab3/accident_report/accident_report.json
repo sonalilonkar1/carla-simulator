@@ -1,0 +1,15 @@
+{
+  "scenario_name": "rear_end_collision_accident_report",
+  "map": "Town03_Opt",
+  "spawn_index": 0,
+  "obstacle_distance_m": 18.0,
+  "initial_throttle": 0.35,
+  "simulation_seconds": 12.0,
+  "post_collision_seconds": 2.0,
+  "fixed_delta_seconds": 0.05,
+  "camera_fps": 20,
+  "image_width": 800,
+  "image_height": 600,
+  "camera_fov": 90,
+  "minimum_collision_events": 1
+}

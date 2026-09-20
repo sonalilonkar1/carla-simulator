@@ -1,0 +1,18 @@
+{
+  "scenario_name": "traffic_signal_compliance",
+  "map": "Town03_Opt",
+  "candidate_index": 0,
+  "approach_distance_m": 30.0,
+  "brake_trigger_distance_m": 4.0,
+  "stop_tolerance_m": 0.5,
+  "pass_distance_m": 8.0,
+  "red_hold_seconds": 2.0,
+  "initial_throttle": 0.35,
+  "simulation_seconds": 18.0,
+  "fixed_delta_seconds": 0.05,
+  "camera_fps": 20,
+  "image_width": 800,
+  "image_height": 600,
+  "camera_fov": 90,
+  "pass_max_stopped_speed_kmh": 1.0
+}
