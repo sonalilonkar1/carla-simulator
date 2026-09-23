@@ -26,3 +26,18 @@ Submit all CARLA and GPU workloads through SLURM. Never run CARLA directly on th
 - Apptainer
 - SLURM
 - NVIDIA GPU
+
+## Student documentation
+
+Start with the [documentation index](docs/README.md):
+
+- [HPC setup](docs/hpc-setup.md)
+- [CARLA installation](docs/carla-installation.md)
+- [Student workflow](docs/student-workflow.md)
+- [Sensors and video](docs/sensors-and-video.md)
+- [Project requirements](docs/project-requirements.md)
+- [CLI command reference](docs/cli-command-reference.md)
+- [Lab 1 guide](lab1/README.md)
+
+## CARLA Simulator Tutorial
+https://docs.google.com/presentation/d/16q1J80kaD2TT6yY4013U9TmhECeBH6uP/edit?usp=sharing&ouid=112862031507191792532&rtpof=true&sd=true
