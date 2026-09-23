@@ -8,20 +8,23 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
 #SBATCH --time=00:25:00
-#SBATCH --output=/scratch/cmpe281-fa26/instructor/018228067/logs/lab2-ped-%j.out
-#SBATCH --error=/scratch/cmpe281-fa26/instructor/018228067/logs/lab2-ped-%j.err
+#SBATCH --output=/scratch/cmpe281-fa26/%u/logs/lab2-ped-%j.out
+#SBATCH --error=/scratch/cmpe281-fa26/%u/logs/lab2-ped-%j.err
 
 set -euo pipefail
 
 COURSE_ROOT=/scratch/cmpe281-fa26
 SIF="$COURSE_ROOT/software/carla-0.9.16.sif"
 RUNTIME="$COURSE_ROOT/runtime/$USER"
-DEV_ROOT="$HOME/cmpe281-carla-dev"
-PRIVATE_ROOT="$COURSE_ROOT/instructor/$USER"
-SCRIPT="$DEV_ROOT/scripts/pedestrian_crossing.py"
-CONFIG="$DEV_ROOT/configs/pedestrian_crossing.json"
-OUTPUT="$PRIVATE_ROOT/output/pedestrian_crossing/$SLURM_JOB_ID"
-SERVER_LOG="$PRIVATE_ROOT/logs/carla-server-ped-$SLURM_JOB_ID.log"
+REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is not set}"
+USER_ROOT="$COURSE_ROOT/$USER"
+LOG_DIR="$USER_ROOT/logs"
+
+SCRIPT="$REPO_ROOT/lab2/pedestrian_crossing/pedestrian_crossing.py"
+CONFIG="$REPO_ROOT/lab2/pedestrian_crossing/pedestrian_crossing.json"
+
+OUTPUT="$USER_ROOT/output/pedestrian_crossing/$SLURM_JOB_ID"
+SERVER_LOG="$LOG_DIR/carla-server-ped-$SLURM_JOB_ID.log"
 SERVER_PID=""
 CARLA_PORT=$((20000 + SLURM_JOB_ID % 20000))
 
@@ -42,7 +45,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$RUNTIME/home" "$RUNTIME/vulkan" "$RUNTIME/wheels" "$OUTPUT" "$PRIVATE_ROOT/logs"
+mkdir -p "$RUNTIME/home" "$RUNTIME/vulkan" "$RUNTIME/wheels" "$OUTPUT" "$LOG_DIR"
 umask 0002
 [[ -r "$SIF" ]] || { echo "ERROR: Missing $SIF" >&2; exit 3; }
 [[ -r "$SCRIPT" ]] || { echo "ERROR: Missing $SCRIPT" >&2; exit 3; }

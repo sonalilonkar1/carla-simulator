@@ -8,20 +8,23 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
 #SBATCH --time=00:25:00
-#SBATCH --output=/scratch/cmpe281-fa26/instructor/018228067/logs/lab3-accident-%j.out
-#SBATCH --error=/scratch/cmpe281-fa26/instructor/018228067/logs/lab3-accident-%j.err
+#SBATCH --output=/scratch/cmpe281-fa26/%u/logs/lab3-accident-%j.out
+#SBATCH --error=/scratch/cmpe281-fa26/%u/logs/lab3-accident-%j.err
 
 set -euo pipefail
 
 COURSE_ROOT=/scratch/cmpe281-fa26
 SIF="$COURSE_ROOT/software/carla-0.9.16.sif"
 RUNTIME="$COURSE_ROOT/runtime/$USER"
-DEV_ROOT="$HOME/cmpe281-carla-dev"
-PRIVATE_ROOT="$COURSE_ROOT/instructor/$USER"
-SCRIPT="$DEV_ROOT/scripts/accident_report.py"
-CONFIG="$DEV_ROOT/configs/accident_report.json"
-OUTPUT="$PRIVATE_ROOT/output/accident_report/$SLURM_JOB_ID"
-SERVER_LOG="$PRIVATE_ROOT/logs/carla-server-accident-$SLURM_JOB_ID.log"
+REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is not set}"
+USER_ROOT="$COURSE_ROOT/$USER"
+LOG_DIR="$USER_ROOT/logs"
+
+SCRIPT="$REPO_ROOT/lab3/accident_report/accident_report.py"
+CONFIG="$REPO_ROOT/lab3/accident_report/accident_report.json"
+
+OUTPUT="$USER_ROOT/output/accident_report/$SLURM_JOB_ID"
+SERVER_LOG="$LOG_DIR/carla-server-accident-$SLURM_JOB_ID.log"
 SERVER_PID=""
 CARLA_PORT=$((20000 + SLURM_JOB_ID % 20000))
 
@@ -42,7 +45,8 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$RUNTIME/home" "$RUNTIME/vulkan" "$RUNTIME/wheels" "$OUTPUT" "$PRIVATE_ROOT/logs"
+mkdir -p "$RUNTIME/home" "$RUNTIME/vulkan" "$RUNTIME/wheels" \
+  "$OUTPUT" "$LOG_DIR"
 umask 0002
 [[ -r "$SIF" ]] || { echo "ERROR: Missing $SIF" >&2; exit 3; }
 [[ -r "$SCRIPT" ]] || { echo "ERROR: Missing $SCRIPT" >&2; exit 3; }

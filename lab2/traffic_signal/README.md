@@ -7,11 +7,12 @@ sequentially to avoid the bulk-layer crash observed on the course HPC.
 
 ## Files
 
-- `scripts/discover_traffic_lights.py`: writes candidate stop-waypoint metadata.
-- `scripts/traffic_signal.py`: stops at red and proceeds after green.
-- `configs/traffic_signal.json`: tunable scenario and pass criteria.
-- `slurm/*.sbatch`: discovery and scenario submissions.
-- `slurm/traffic_signal_common.sh`: shared safe CARLA launcher.
+- `discover_traffic_lights.py`: discovers reproducible traffic-light candidates.
+- `traffic_signal.py`: stops at red and proceeds after green.
+- `traffic_signal.json`: tunable scenario and pass criteria.
+- `discover_traffic_lights.sbatch`: submits the discovery job.
+- `run_traffic_signal.sbatch`: submits the traffic-signal scenario.
+- `traffic_signal_common.sh`: shared CARLA server launcher.
 
 Run discovery before the scenario. Review candidate `0`; if its rendered view
 is unsuitable, change `candidate_index` and rerun the scenario.

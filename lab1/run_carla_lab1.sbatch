@@ -8,17 +8,21 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
 #SBATCH --time=00:20:00
-#SBATCH --output=/scratch/cmpe281-fa26/lab1/logs/carla-lab1-%j.out
-#SBATCH --error=/scratch/cmpe281-fa26/lab1/logs/carla-lab1-%j.err
+#SBATCH --output=/scratch/cmpe281-fa26/%u/logs/lab1-%j.out
+#SBATCH --error=/scratch/cmpe281-fa26/%u/logs/lab1-%j.err
 
 set -euo pipefail
 
 COURSE_ROOT=/scratch/cmpe281-fa26
 SIF="$COURSE_ROOT/software/carla-0.9.16.sif"
 RUNTIME="$COURSE_ROOT/runtime/$USER"
-SCRIPT="$COURSE_ROOT/lab1/scripts/lab1_demo.py"
-OUTPUT="$COURSE_ROOT/lab1/output/$USER/$SLURM_JOB_ID"
-SERVER_LOG="$COURSE_ROOT/lab1/logs/carla-server-$SLURM_JOB_ID.log"
+REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is not set}"
+USER_ROOT="$COURSE_ROOT/$USER"
+LOG_DIR="$USER_ROOT/logs"
+
+SCRIPT="$REPO_ROOT/lab1/lab1_demo.py"
+OUTPUT="$USER_ROOT/output/lab1/$SLURM_JOB_ID"
+SERVER_LOG="$LOG_DIR/carla-server-$SLURM_JOB_ID.log"
 SERVER_PID=""
 
 if [[ -z "${SLURM_JOB_ID:-}" ]]; then
@@ -50,7 +54,7 @@ mkdir -p \
   "$RUNTIME/vulkan" \
   "$RUNTIME/wheels" \
   "$OUTPUT" \
-  "$COURSE_ROOT/lab1/logs"
+  "$LOG_DIR"
 umask 0002
 
 if [[ ! -r "$SIF" ]]; then

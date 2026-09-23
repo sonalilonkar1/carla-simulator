@@ -8,20 +8,22 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
 #SBATCH --time=00:25:00
-#SBATCH --output=/scratch/cmpe281-fa26/instructor/018228067/logs/lab2-stop-%j.out
-#SBATCH --error=/scratch/cmpe281-fa26/instructor/018228067/logs/lab2-stop-%j.err
-
+#SBATCH --output=/scratch/cmpe281-fa26/%u/logs/lab2-stop-%j.out
+#SBATCH --error=/scratch/cmpe281-fa26/%u/logs/lab2-stop-%j.err
 set -euo pipefail
 
 COURSE_ROOT=/scratch/cmpe281-fa26
 SIF="$COURSE_ROOT/software/carla-0.9.16.sif"
 RUNTIME="$COURSE_ROOT/runtime/$USER"
-DEV_ROOT="$HOME/cmpe281-carla-dev"
-PRIVATE_ROOT="$COURSE_ROOT/instructor/$USER"
-SCRIPT="$DEV_ROOT/scripts/stopped_vehicle.py"
-CONFIG="$DEV_ROOT/configs/stopped_vehicle.json"
-OUTPUT="$PRIVATE_ROOT/output/stopped_vehicle/$SLURM_JOB_ID"
-SERVER_LOG="$PRIVATE_ROOT/logs/carla-server-stop-$SLURM_JOB_ID.log"
+REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is not set}"
+USER_ROOT="$COURSE_ROOT/$USER"
+LOG_DIR="$USER_ROOT/logs"
+
+SCRIPT="$REPO_ROOT/lab2/stopped_vehicle/stopped_vehicle.py"
+CONFIG="$REPO_ROOT/lab2/stopped_vehicle/stopped_vehicle.json"
+
+OUTPUT="$USER_ROOT/output/stopped_vehicle/$SLURM_JOB_ID"
+SERVER_LOG="$LOG_DIR/carla-server-stop-$SLURM_JOB_ID.log"
 SERVER_PID=""
 CARLA_PORT=$((20000 + SLURM_JOB_ID % 20000))
 
@@ -42,7 +44,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$RUNTIME/home" "$RUNTIME/vulkan" "$RUNTIME/wheels" "$OUTPUT" "$PRIVATE_ROOT/logs"
+mkdir -p "$RUNTIME/home" "$RUNTIME/vulkan" "$RUNTIME/wheels" "$OUTPUT" "$LOG_DIR"
 umask 0002
 [[ -r "$SIF" ]] || { echo "ERROR: Missing $SIF" >&2; exit 3; }
 [[ -r "$SCRIPT" ]] || { echo "ERROR: Missing $SCRIPT" >&2; exit 3; }

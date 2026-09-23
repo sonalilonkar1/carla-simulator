@@ -16,7 +16,6 @@ Student entry point for CARLA 0.9.16 on the SJSU COE HPC cluster.
 - [CARLA installation](carla-installation.md) — Apptainer image and Python API.
 - [Student workflow](student-workflow.md) — scenario to reproducible results.
 - [Sensors and video](sensors-and-video.md) — RGB, LiDAR, telemetry, and MP4.
-- [Project requirements](project-requirements.md) — suggested deliverables.
 - [CLI reference](cli-command-reference.md) — commands used in the tutorial.
 - [Run all labs](run-all-labs.md) — submission commands for Labs 1–4.
 

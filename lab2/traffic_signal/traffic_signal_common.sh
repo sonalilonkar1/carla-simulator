@@ -3,10 +3,12 @@
 COURSE_ROOT=/scratch/cmpe281-fa26
 SIF="$COURSE_ROOT/software/carla-0.9.16.sif"
 RUNTIME="$COURSE_ROOT/runtime/$USER"
-DEV_ROOT="$HOME/cmpe281-carla-dev"
-PRIVATE_ROOT="$COURSE_ROOT/instructor/$USER"
-OUTPUT="$PRIVATE_ROOT/output/traffic_signal/$SLURM_JOB_ID"
-SERVER_LOG="$PRIVATE_ROOT/logs/carla-server-signal-$SLURM_JOB_ID.log"
+REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is not set}"
+USER_ROOT="$COURSE_ROOT/$USER"
+LOG_DIR="$USER_ROOT/logs"
+
+OUTPUT="$USER_ROOT/output/traffic_signal/$SLURM_JOB_ID"
+SERVER_LOG="$LOG_DIR/carla-server-signal-$SLURM_JOB_ID.log"
 SERVER_PID=""
 CARLA_PORT=$((20000 + SLURM_JOB_ID % 20000))
 
@@ -21,7 +23,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$RUNTIME/home" "$RUNTIME/vulkan" "$RUNTIME/wheels" "$OUTPUT" "$PRIVATE_ROOT/logs"
+mkdir -p "$RUNTIME/home" "$RUNTIME/vulkan" "$RUNTIME/wheels" "$OUTPUT" "$LOG_DIR"
 umask 0002
 sed 's#/usr/lib64/libGLX_nvidia.so.0#libGLX_nvidia.so.0#' \
   /usr/share/vulkan/icd.d/nvidia_icd.x86_64.json > "$RUNTIME/vulkan/nvidia_icd.json"
@@ -50,12 +52,12 @@ done
 [[ "$ready" -eq 1 ]] || { echo "ERROR: CARLA startup timeout" >&2; exit 5; }
 
 if [[ "$MODE" == discovery ]]; then
-  "$RUNTIME/venv311/bin/python" "$DEV_ROOT/scripts/discover_traffic_lights.py" \
+  "$RUNTIME/venv311/bin/python" "$REPO_ROOT/lab2/traffic_signal/discover_traffic_lights.py" \
     --port "$CARLA_PORT" --output "$OUTPUT/traffic-light-candidates.json"
   echo "TRAFFIC-LIGHT DISCOVERY: PASS"
 else
-  "$RUNTIME/venv311/bin/python" "$DEV_ROOT/scripts/traffic_signal.py" \
-    --port "$CARLA_PORT" --config "$DEV_ROOT/configs/traffic_signal.json" --output-dir "$OUTPUT"
+  "$RUNTIME/venv311/bin/python" "$REPO_ROOT/lab2/traffic_signal/traffic_signal.py" \
+    --port "$CARLA_PORT" --config "$REPO_ROOT/lab2/traffic_signal/traffic_signal.json" --output-dir "$OUTPUT"
   if command -v ffmpeg >/dev/null 2>&1; then
     ffmpeg -y -loglevel error -framerate 20 -i "$OUTPUT/frames/frame-%06d.png" \
       -c:v libx264 -pix_fmt yuv420p "$OUTPUT/scenario.mp4"

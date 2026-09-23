@@ -7,9 +7,9 @@ pass/fail results.
 
 ## Files
 
-- `scripts/stopped_vehicle.py`: CARLA client and scenario logic
-- `configs/stopped_vehicle.json`: map, timing, camera, and pass thresholds
-- `slurm/run_stopped_vehicle.sbatch`: GPU allocation and CARLA server lifecycle
+- `stopped_vehicle.py`: CARLA client and scenario logic.
+- `stopped_vehicle.json`: map, timing, camera, and pass thresholds.
+- `run_stopped_vehicle.sbatch`: GPU allocation and CARLA server lifecycle.
 
 ## Expected results
 
