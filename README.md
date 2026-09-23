@@ -35,7 +35,6 @@ Start with the [documentation index](docs/README.md):
 - [CARLA installation](docs/carla-installation.md)
 - [Student workflow](docs/student-workflow.md)
 - [Sensors and video](docs/sensors-and-video.md)
-- [Project requirements](docs/project-requirements.md)
 - [CLI command reference](docs/cli-command-reference.md)
 - [Lab 1 guide](lab1/README.md)
 
