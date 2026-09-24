@@ -18,6 +18,7 @@ Student entry point for CARLA 0.9.16 on the SJSU COE HPC cluster.
 - [Sensors and video](sensors-and-video.md) — RGB, LiDAR, telemetry, and MP4.
 - [CLI reference](cli-command-reference.md) — commands used in the tutorial.
 - [Run all labs](run-all-labs.md) — submission commands for Labs 1–4.
+- [Job execution command sequence](CARLA-Job-Commands.pdf) — Job execution commands for Lab 3 from class demo.
 
 ## Repository layout
 
