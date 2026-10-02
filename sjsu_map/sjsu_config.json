@@ -1,0 +1,19 @@
+{
+  "map_name": "OpenDriveMap",
+  "xodr_path": "maps/sjsu.xodr",
+  "spawn_index": 0,
+  "signal": {
+    "stop_line_x": 0.0,
+    "stop_line_y": 0.0,
+    "stop_line_z": 0.5,
+    "red_seconds": 8.0,
+    "green_seconds": 10.0,
+    "yellow_seconds": 2.0,
+    "tolerance_m": 2.5
+  },
+  "thresholds": {
+    "minimum_stop_seconds": 3.0,
+    "collision_impulse": 1000.0,
+    "speed_limit_kmh": 25.0
+  }
+}
