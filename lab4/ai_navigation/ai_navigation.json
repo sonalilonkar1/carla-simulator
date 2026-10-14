@@ -6,7 +6,7 @@
   "target_speed_kmh": 20.0,
   "simulation_seconds": 75.0,
   "fixed_delta_seconds": 0.05,
-  "camera_fps": 10,
+  "camera_fps": 20.0,
   "image_width": 800,
   "image_height": 600,
   "camera_fov": 90,

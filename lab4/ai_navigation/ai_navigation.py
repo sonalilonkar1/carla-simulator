@@ -104,9 +104,11 @@ def main():
 
         start_transform = spawn_points[spawn_index]
         destination = spawn_points[destination_index]
-        ego = world.try_spawn_actor(
-            blueprints.find("vehicle.tesla.model3"), start_transform
-        )
+        
+        ego_bp = blueprints.find("vehicle.tesla.model3")
+        ego_bp.set_attribute("role_name", "hero")
+        ego = world.try_spawn_actor(ego_bp, start_transform)
+        
         if ego is None:
             raise RuntimeError("Could not spawn the navigation vehicle")
         actors.append(ego)
@@ -115,7 +117,8 @@ def main():
         camera_bp.set_attribute("image_size_x", str(config["image_width"]))
         camera_bp.set_attribute("image_size_y", str(config["image_height"]))
         camera_bp.set_attribute("fov", str(config["camera_fov"]))
-        camera_bp.set_attribute("sensor_tick", str(1.0 / float(config["camera_fps"])))
+        camera_fps = float(config.get("camera_fps", 20.0))
+        camera_bp.set_attribute("sensor_tick", f"{1.0 / camera_fps:.6f}")
         camera = world.spawn_actor(
             camera_bp,
             carla.Transform(carla.Location(x=-6.0, z=3.0), carla.Rotation(pitch=-12.0)),
@@ -167,7 +170,7 @@ def main():
 
         dt = float(config["fixed_delta_seconds"])
         total_ticks = int(float(config["simulation_seconds"]) / dt)
-        capture_every = max(1, round((1.0 / float(config["camera_fps"])) / dt))
+        capture_every = max(1, round((1.0 / camera_fps) / dt))
         lidar_every = max(1, round((1.0 / float(config["lidar_fps"])) / dt))
         start_location = ego.get_location()
         closest_goal_distance = distance(start_location, destination.location)
@@ -205,12 +208,27 @@ def main():
             if tick % capture_every == 0:
                 try:
                     image = images.get(timeout=30.0 if saved_frames == 0 else 5.0)
+
+                    # Keep the newest camera frame if multiple frames are queued.
+                    while True:
+                        try:
+                            image = images.get_nowait()
+                        except queue.Empty:
+                            break
+
                     if image.frame != last_image_frame:
-                        image.save_to_disk(str(frames / f"frame-{saved_frames:06d}.png"))
+                        image.save_to_disk(
+                            str(frames / f"frame-{saved_frames:06d}.png")
+                        )
                         saved_frames += 1
                         last_image_frame = image.frame
+
                 except queue.Empty:
-                    print(f"WARNING: RGB camera timeout after frame {frame}", flush=True)
+                    print(
+                        f"WARNING: RGB camera timeout after frame {frame}",
+                        flush=True,
+                    )
+		
 
             if goal_reached:
                 break

@@ -118,10 +118,10 @@ def main():
         forward = ego_transform.get_forward_vector()
         right = ego_transform.get_right_vector()
         ego_start = ego_transform.location
-
-        ego = world.try_spawn_actor(
-            blueprints.find("vehicle.tesla.model3"), ego_transform
-        )
+        ego_bp = blueprints.find("vehicle.tesla.model3")
+        ego_bp.set_attribute("role_name", "hero")
+        ego = world.try_spawn_actor(ego_bp, ego_transform)
+        
         if ego is None:
             raise RuntimeError(f"Could not spawn ego vehicle at index {spawn_index}")
         actors.append(ego)

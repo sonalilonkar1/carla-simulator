@@ -83,7 +83,11 @@ def main():
         selected_light.freeze(True)
 
         blueprints = world.get_blueprint_library()
-        ego = world.try_spawn_actor(blueprints.find("vehicle.tesla.model3"), spawn)
+        ego_bp = blueprints.find("vehicle.tesla.model3")
+        ego_bp.set_attribute("role_name", "hero")
+        
+        ego = world.try_spawn_actor(ego_bp, spawn)
+        
         if ego is None:
             raise RuntimeError(f"Could not spawn ego at traffic-light candidate {index}")
         actors.append(ego)

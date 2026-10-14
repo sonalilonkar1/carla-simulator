@@ -129,6 +129,7 @@ def main():
 
         ego_transform = spawn_points[spawn_index]
         ego_bp = blueprint_library.find("vehicle.tesla.model3")
+        ego_bp.set_attribute("role_name", "hero")
         ego = world.try_spawn_actor(ego_bp, ego_transform)
         if ego is None:
             raise RuntimeError(f"Could not spawn ego vehicle at index {spawn_index}")
